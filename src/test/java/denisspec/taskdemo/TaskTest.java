@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @SpringBootTest
 public class TaskTest
@@ -28,9 +29,35 @@ public class TaskTest
         t.setTitle("test task two");
         t.setContent("test task content two");
         tRepo.save(t);
-        assertNotNull(tRepo.findById(1L).get());
+        assertNotNull(tRepo.findById(4L).get());
     }
 
+    @Test
+    public void testReadAll()
+    {
+        int size = tRepo.findAll().size();
+        assertEquals(3,size);
+    }
+    @Test
+    public void testSingleTask()
+    {
+        Task t = this.tRepo.findById(1L).get();
+        assertEquals("First task",t.getTitle());
+    }
+    @Test
+    public void testUpdate()
+    {
+        Task t = this.tRepo.findById(1L).get();
+        t.setTitle("changed");
+        tRepo.save(t);
+        assertNotEquals("First task",tRepo.findById(1L).get().getTitle());
+    }
+    @Test
+    public void testDelete()
+    {
+        tRepo.deleteById(1L);
+       assertFalse(tRepo.existsById(1L));
+    }
 
 
 }

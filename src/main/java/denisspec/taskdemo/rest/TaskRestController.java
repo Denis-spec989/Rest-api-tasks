@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/customers/")
+@RequestMapping("/api/tasks/")
 public class TaskRestController
 {
     @Autowired
@@ -22,16 +22,17 @@ public class TaskRestController
     @RequestMapping(value = "{id}",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Task> getCustomer(@PathVariable("id") Long taskId)
     {
-        if(taskId == null)
-        {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        Task task = taskService.getById(taskId);
-        if(task == null)
-        {
-            return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Task>(task,HttpStatus.OK);
+//        if(taskId == null)
+//        {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        Task task = taskService.getById(taskId);
+//        if(task == null)
+//        {
+//            return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<Task>(task,HttpStatus.OK);
+        return null;
     }
     @RequestMapping(value = "",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Task> saveTask(@RequestBody  Task task)
@@ -56,7 +57,7 @@ public class TaskRestController
     @RequestMapping(value = "{id}",method = RequestMethod.DELETE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Task> deleteTask(@PathVariable("id") Long id)
     {
-        Task task = taskService.getById(id);
+        Optional<Task> task = taskService.getById(id);
         if(task == null) {
             return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
         }
@@ -67,8 +68,9 @@ public class TaskRestController
     public ResponseEntity<List<Task>> getAllTasks()
     {
         List<Task> tasks = this.taskService.getAll();
+        System.out.println(tasks.size());
         if(tasks.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<List<Task>>(HttpStatus.OK);
+        return new ResponseEntity<List<Task>>(tasks,HttpStatus.OK);
     }
 }

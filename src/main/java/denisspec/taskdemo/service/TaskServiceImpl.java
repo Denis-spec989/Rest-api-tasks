@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
 @Slf4j
 @Service
 public class TaskServiceImpl implements TaskService{
@@ -18,8 +19,8 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public Optional<Task> getById(Long id) {
-        //return taskRepository.findById(id);
-        return null;
+
+        return taskRepository.findById(id);
     }
 
     @Override

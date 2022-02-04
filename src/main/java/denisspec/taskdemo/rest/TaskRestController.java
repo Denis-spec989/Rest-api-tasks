@@ -22,17 +22,17 @@ public class TaskRestController
     @RequestMapping(value = "{id}",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Task> getCustomer(@PathVariable("id") Long taskId)
     {
-//        if(taskId == null)
-//        {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        Task task = taskService.getById(taskId);
-//        if(task == null)
-//        {
-//            return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<Task>(task,HttpStatus.OK);
-        return null;
+        if(taskId == null)
+        {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Optional<Task> task = taskService.getById(taskId);
+        if(task == null)
+        {
+            return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Task>(task.get(),HttpStatus.OK);
+
     }
     @RequestMapping(value = "",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Task> saveTask(@RequestBody  Task task)
@@ -57,7 +57,7 @@ public class TaskRestController
     @RequestMapping(value = "{id}",method = RequestMethod.DELETE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Task> deleteTask(@PathVariable("id") Long id)
     {
-        Optional<Task> task = taskService.getById(id);
+        Optional<Task> task = taskService.getById(id);//optional
         if(task == null) {
             return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
         }
